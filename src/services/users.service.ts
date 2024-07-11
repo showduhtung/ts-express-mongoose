@@ -2,7 +2,6 @@ import { CreateUserDto } from "@dtos/users.dto";
 import { HttpException } from "@exceptions/HttpException";
 import { User } from "@interfaces/users.interface";
 import userModel from "@models/users.model";
-import { isEmpty } from "@utils/util";
 
 class UserService {
   public users = userModel;
@@ -61,3 +60,11 @@ class UserService {
 }
 
 export default UserService;
+
+function isEmpty(value: string | number | object): boolean {
+  if (value === null) return true;
+  else if (typeof value !== "number" && value === "") return true;
+  else if (typeof value === "undefined" || value === undefined) return true;
+  else if (value !== null && typeof value === "object" && !Object.keys(value).length) return true;
+  return false;
+}

@@ -6,11 +6,11 @@ import helmet from "helmet";
 import hpp from "hpp";
 import morgan from "morgan";
 import { connect, set, disconnect } from "mongoose";
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from "@config";
+import { CREDENTIALS, NODE_ENV, PORT, LOG_FORMAT, ORIGIN } from "@config";
 import { dbConnection } from "@databases";
 import { Routes } from "@interfaces/routes.interface";
 import errorMiddleware from "@middlewares/error.middleware";
-import { logger, stream } from "@utils/logger";
+import { logger, stream } from "@libs/logger";
 
 class App {
   public app: express.Application;
@@ -70,9 +70,7 @@ class App {
   }
 
   private initializeRoutes(routes: Routes[]) {
-    routes.forEach((route) => {
-      this.app.use("/", route.router);
-    });
+    routes.forEach((route) => this.app.use("/", route.router));
   }
 
   private initializeErrorHandling() {
