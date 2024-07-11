@@ -1,15 +1,14 @@
 {
   "name": "typescript-express-mongoose-starter",
   "description": "TypeScript + Express + Mongoose + MongoDB",
-  "author": "Ahmad Joya",
   "scripts": {
-    "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
+    "start": "pnpm run build && cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "pnpm run lint -- --fix"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",

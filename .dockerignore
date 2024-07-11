@@ -14,3 +14,20 @@ jest.config.js
 # docker
 Dockerfile
 docker-compose.yml
+
+# Exclude common OS files
+.DS_Store
+
+# Exclude common IDE project files
+.vscode/
+**/.vscode/*
+
+# Exclude .env files
+.env
+.env.development.local
+.env.production.local
+.env.test.local
+
+build
+dist
+

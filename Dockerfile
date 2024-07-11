@@ -5,7 +5,14 @@ COPY . ./app
 
 WORKDIR /app
 
-RUN npm install
+COPY package.json pnpm-lock.yaml* ./
+
+RUN \
+  if [ -f pnpm-lock.yaml ]; then yarn global add pnpm; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+RUN pnpm install
 
 EXPOSE 3000
 
@@ -14,11 +21,11 @@ FROM common-build-stage as development-build-stage
 
 ENV NODE_ENV development
 
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]
 
 # Production build stage
 FROM common-build-stage as production-build-stage
 
 ENV NODE_ENV production
 
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]
