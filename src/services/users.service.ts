@@ -1,10 +1,11 @@
-import { CreateUserDto } from '@dtos/users.dto';
-import { HttpException } from '@exceptions/HttpException';
-import { User } from '@interfaces/users.interface';
-import userModel from '@models/users.model';
+import { CreateUserDto } from "@dtos/users.dto";
+import { HttpException } from "@exceptions/HttpException";
+import { User } from "@interfaces/users.interface";
+import userModel from "@models/users.model";
+import { isEmpty } from "@utils/util";
 
 class UserService {
-  public users = userModel; // mongoose model
+  public users = userModel;
 
   public async findAllUser(): Promise<User[]> {
     const users: User[] = await this.users.find();
@@ -12,7 +13,7 @@ class UserService {
   }
 
   public async findUserById(userId: string): Promise<User> {
-    if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
+    if (isEmpty(userId)) throw new HttpException(400, "UserId is empty");
 
     const findUser: User = await this.users.findOne({ _id: userId });
     if (!findUser) throw new HttpException(409, "User doesn't exist");
@@ -21,20 +22,19 @@ class UserService {
   }
 
   public async createUser(userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
+    if (isEmpty(userData)) throw new HttpException(400, "userData is empty");
 
     const findUser: User = await this.users.findOne({ email: userData.email });
     if (findUser) throw new HttpException(409, `This email ${userData.email} already exists`);
 
-    // const hashedPassword = await hash(userData.password, 10);
-    const hashedPassword = '123455';
+    const hashedPassword = "abc123";
     const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
 
     return createUserData;
   }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
+    if (isEmpty(userData)) throw new HttpException(400, "userData is empty");
 
     if (userData.email) {
       const findUser: User = await this.users.findOne({ email: userData.email });
@@ -42,8 +42,7 @@ class UserService {
     }
 
     if (userData.password) {
-      // const hashedPassword = await hash(userData.password, 10);
-      const hashedPassword = '123455';
+      const hashedPassword = "abc123";
       userData = { ...userData, password: hashedPassword };
     }
 
@@ -59,14 +58,6 @@ class UserService {
 
     return deleteUserById;
   }
-}
-
-function isEmpty(value: string | number | object): boolean {
-  if (value === null) return true;
-  else if (typeof value !== 'number' && value === '') return true;
-  else if (typeof value === 'undefined' || value === undefined) return true;
-  else if (value !== null && typeof value === 'object' && !Object.keys(value).length) return true;
-  else return false;
 }
 
 export default UserService;

@@ -1,27 +1,16 @@
-import compression from 'compression';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import express from 'express';
-import helmet from 'helmet';
-import hpp from 'hpp';
-import morgan from 'morgan';
-import { connect, set, disconnect } from 'mongoose';
-
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
-import { dbConnection } from '@databases';
-import { Routes } from '@interfaces/routes.interface';
-import errorMiddleware from '@middlewares/error.middleware';
-import { logger, stream } from '@utils/logger';
-
-const app = express();
-app.use(morgan(LOG_FORMAT, { stream }));
-app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
-app.use(hpp());
-app.use(helmet());
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+import compression from "compression";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import hpp from "hpp";
+import morgan from "morgan";
+import { connect, set, disconnect } from "mongoose";
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from "@config";
+import { dbConnection } from "@databases";
+import { Routes } from "@interfaces/routes.interface";
+import errorMiddleware from "@middlewares/error.middleware";
+import { logger, stream } from "@utils/logger";
 
 class App {
   public app: express.Application;
@@ -30,7 +19,7 @@ class App {
 
   constructor(routes: Routes[]) {
     this.app = express();
-    this.env = NODE_ENV || 'development';
+    this.env = NODE_ENV || "development";
     this.port = PORT || 3000;
 
     this.connectToDatabase();
@@ -51,9 +40,9 @@ class App {
   public async closeDatabaseConnection(): Promise<void> {
     try {
       await disconnect();
-      console.log('Disconnected from MongoDB');
+      console.log("Disconnected from MongoDB");
     } catch (error) {
-      console.error('Error closing database connection:', error);
+      console.error("Error closing database connection:", error);
     }
   }
 
@@ -62,8 +51,8 @@ class App {
   }
 
   private async connectToDatabase() {
-    if (this.env !== 'production') {
-      set('debug', true);
+    if (this.env !== "production") {
+      set("debug", true);
     }
 
     await connect(dbConnection.url);
@@ -81,8 +70,8 @@ class App {
   }
 
   private initializeRoutes(routes: Routes[]) {
-    routes.forEach(route => {
-      this.app.use('/', route.router);
+    routes.forEach((route) => {
+      this.app.use("/", route.router);
     });
   }
 

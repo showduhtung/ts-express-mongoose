@@ -1,0 +1,9 @@
+# Ignore artifacts:
+**/dist
+**/node_modules
+
+*.yaml
+*.lock
+*package-lock.json
+
+**/*.d.ts

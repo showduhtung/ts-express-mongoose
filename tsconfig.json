@@ -1,15 +1,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["ESNext"],
+    "target": "es2017",
+    "lib": ["es2017", "esnext.asynciterable"],
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "Node",
-    "module": "ESNext",
+    "moduleResolution": "node",
+    "module": "commonjs",
     "pretty": true,
     "sourceMap": true,
     "declaration": true,
@@ -27,12 +27,14 @@
       "@databases": ["databases"],
       "@dtos/*": ["dtos/*"],
       "@exceptions/*": ["exceptions/*"],
+      "@interfaces/*": ["interfaces/*"],
       "@middlewares/*": ["middlewares/*"],
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],
       "@services/*": ["services/*"],
-      "@interfaces/*": ["interfaces/*"],
       "@utils/*": ["utils/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+  "exclude": ["node_modules", "src/tests"]
 }
